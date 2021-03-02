@@ -1,22 +1,39 @@
 class Api::ProductsController < ApplicationController
-  def all_action
-    @all = Product.all
+  def index
+    @products = Product.all
+    render "index.json.jb"
+  end
 
-    @allproducts = []
-    index = 0
+  def show
+    @product = Product.find_by(id: params[:id])
+    render "show.json.jb"
+  end
 
-    while index < @all.length
-      product = {
-        id: @all[index].id,
-        name: @all[index].name,
-        price: @all[index].price,
-        image_url: @all[index].image_url,
-        description: @all[index].description,
-      }
-      @allproducts << product
-      index += 1
-    end
+  def create
+    @product = Product.new(
+      name: params[:name],
+      price: params[:price],
+      image_url: params[:image_url],
+      description: params[:description],
+    )
+    @product.save
+    render "show.json.jb"
+  end
 
-    render "allproducts.json.jb"
+  def update
+    @product = Product.find_by(id: params[:id])
+
+    @product.name = params[:name] || @product.name
+    @product.price = params[:price] || @product.price
+    @product.image_url = params[:image_url] || @product.image_url
+    @product.description = params[:description] || @product.description
+    @product.save
+    render "show.json.jb"
+  end
+
+  def destroy
+    @product = Product.find_by(id: params[:id])
+    @product.destroy
+    render json: { message: "Item has been deleted." }
   end
 end
