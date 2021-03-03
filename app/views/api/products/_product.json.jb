@@ -1,1 +1,10 @@
-
+{
+  id: @product.id,
+  name: @product.name,
+  price: @product.price,
+  tax: @product.tax,
+  total: @product.total,
+  discount: @product.is_discounted?,
+  image_url: @product.image_url,
+  description: @product.description,
+}
