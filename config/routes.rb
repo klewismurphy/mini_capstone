@@ -9,8 +9,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     get "/products" => "products#index"
-    get "/products/:sort/:sort_order" => "products#index"
-    get "/products/:discount" => "products#index"
     get "/products/:id" => "products#show"
     post "/products" => "products#create"
     patch "/products/:id" => "products#update"
