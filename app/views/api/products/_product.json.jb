@@ -5,7 +5,9 @@
   tax: @product.tax,
   total: @product.total,
   discount: @product.is_discounted?,
-  image_url: @product.image_url,
+  # images: Image.find_by(product_id: @product.id).url,
+  images: @product.images,
   description: @product.description,
-  supplier: Supplier.find_by(id: @product.supplier_id),
+  # supplier: Supplier.find_by(id: @product.supplier_id).name,
+  supplier: @product.supplier.name,
 }
