@@ -1,5 +1,9 @@
 class Api::ProductsController < ApplicationController
   def index
+    if authenticate_user
+      @products = Product.all
+    end
+
     if params[:sort] == "price"
       @products = Product.order("#{params[:sort]}" => "#{params[:sort_order]}")
       render "index.json.jb"
