@@ -9,6 +9,8 @@ class Product < ApplicationRecord
   validates :description, length: { maximum: 500 }
   belongs_to :supplier
   has_many :images
+  has_many :category_products
+  has_many :categories, through: :category_products
 
   def supplier
     Supplier.find_by(id: supplier_id)

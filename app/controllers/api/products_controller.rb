@@ -1,4 +1,6 @@
 class Api::ProductsController < ApplicationController
+  before_action :authenticate_admin, only: [:create, :update, :destroy]
+
   def index
     if params[:sort] == "price"
       @products = Product.order("#{params[:sort]}" => "#{params[:sort_order]}")

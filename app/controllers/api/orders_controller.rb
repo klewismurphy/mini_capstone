@@ -1,4 +1,6 @@
 class Api::OrdersController < ApplicationController
+  before_action :authenticate_user, only: [:index, :show, :create]
+
   def create
     product = Product.find_by(id: params[:product_id])
     calc_subtotal = product.price * params[:quantity].to_i
