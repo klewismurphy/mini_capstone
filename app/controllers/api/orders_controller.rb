@@ -2,19 +2,26 @@ class Api::OrdersController < ApplicationController
   before_action :authenticate_user, only: [:index, :show, :create]
 
   def create
-    product = Product.find_by(id: params[:product_id])
-    calc_subtotal = product.price * params[:quantity].to_i
-    # calc_tax = calc_subtotal * 0.09 #another way to do it
-    calc_tax = params[:quantity].to_i * product.tax
-    calc_total = calc_subtotal + calc_tax
+    @cps = CartedProduct.where(user_id: current_user.id)
+    @cps = @cps.where(status: "carted")
+
+    @cps.each do |cp|
+      product = Product.find_by(id: cp.product_id)
+      @calc_subtotal = product.price * cp.quantity
+    end
+    # calc_subtotal = product.price * params[:quantity].to_i
+    calc_tax = @calc_subtotal * 0.09 #another way to do it
+    # calc_tax = params[:quantity].to_i * product.tax
+    calc_total = @calc_subtotal + calc_tax
 
     @order = Order.new(
       user_id: current_user.id,
-      product_id: params[:product_id],
-      quantity: params[:quantity],
-      subtotal: calc_subtotal,
+      subtotal: @calc_subtotal,
+      # subtotal should be 814
       total: calc_total,
+      #total shoudl be 887.26
       tax: calc_tax,
+      # tax should be 73.26
     )
     @order.save
     render "show.json.jb"

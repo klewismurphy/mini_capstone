@@ -1,0 +1,9 @@
+@cps.map do |cp|
+  {
+    id: cp.id,
+    product: Product.find_by(id: cp.product_id).name,
+    quantity: cp.quantity,
+    status: cp.status,
+    subtotal: Product.find_by(id: cp.product_id).price * cp.quantity,
+  }
+end
