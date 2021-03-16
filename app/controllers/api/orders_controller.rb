@@ -4,11 +4,14 @@ class Api::OrdersController < ApplicationController
   def create
     @cps = CartedProduct.where(user_id: current_user.id)
     @cps = @cps.where(status: "carted")
+    @calc_subtotal = 0
 
     @cps.each do |cp|
       product = Product.find_by(id: cp.product_id)
-      @calc_subtotal = product.price * cp.quantity
+      tempsubtotal = product.price * cp.quantity
+      @calc_subtotal = @calc_subtotal + tempsubtotal
     end
+
     # calc_subtotal = product.price * params[:quantity].to_i
     calc_tax = @calc_subtotal * 0.09 #another way to do it
     # calc_tax = params[:quantity].to_i * product.tax
