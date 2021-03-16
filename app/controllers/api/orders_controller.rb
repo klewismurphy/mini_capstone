@@ -20,11 +20,8 @@ class Api::OrdersController < ApplicationController
     @order = Order.new(
       user_id: current_user.id,
       subtotal: @calc_subtotal,
-      # subtotal should be 95
       total: calc_total,
-      #total shoudl be 887.26
       tax: calc_tax,
-      # tax should be 73.26
     )
     @order.save
 
