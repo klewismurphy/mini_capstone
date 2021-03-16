@@ -17,4 +17,12 @@ class Api::CartedProductsController < ApplicationController
     @cps = @cps.where(status: "carted")
     render "index.json.jb"
   end
+
+  def destroy
+    @cartedproduct = CartedProduct.find_by(id: params[:id])
+    @product = Product.find_by(id: @cartedproduct.product_id)
+    @cartedproduct.status = "removed"
+    @cartedproduct.save
+    render "show.json.jb"
+  end
 end
